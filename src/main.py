@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -9,6 +9,13 @@ from dataset_loader import load_dataset, split_dataset
 from svm import train_svm
 from knn import train_knn
 from random_forest import train_random_forest
+
+def visualize(X, Y):
+    plt.scatter(range(50), X[:50, 0])
+    plt.scatter(range(50), X[50:100, 0])
+    plt.scatter(range(50), X[100:, 0])
+    plt.show()
+    breakpoint()
 
 def test_modele(modele, X_test, y_test):
     # Predict from the test dataset
@@ -28,6 +35,8 @@ def test_modele(modele, X_test, y_test):
 def main():
     X, Y = load_dataset('../iris.csv')
     X_train, X_test, y_train, y_test = split_dataset(X, Y)
+
+    visualize(X, Y)
 
     svn = train_svm(X_train, y_train)
     

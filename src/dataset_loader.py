@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
@@ -20,4 +19,3 @@ def split_dataset(X, Y):
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2) #20% du dataset sera reserve pour les tests
 
     return X_train, X_test, y_train, y_test
-
