@@ -1,16 +1,14 @@
-from dis import dis
 import random
-import math
 import numpy as np
 
-from dataset_loader import load_dataset, split_dataset
+from dataset_loader import load_dataset
 
 class KMoyenne():
     def __init__(self, X, k:int) -> None:
         self.X = X #les donnees brutes
         self.k = k #le nombre de centroides
         self.assignations = np.zeros(X.shape[0]) #le centroide de chaque donnee
-        self.distances = np.zeros((X.shape[0], k))
+        self.distances = np.zeros((X.shape[0], k)) #la distance entre chaque point et chaque centroide
         self.centroides = self.initialiser_centroides(k) #les centroides
 
     def initialiser_centroides(self, k:int):
@@ -18,7 +16,7 @@ class KMoyenne():
         return random.choices(self.X, k=k)
     
     def distance(self, p1, p2):
-        #distance euclidienne entre deux points
+        #distance de manhattan entre deux points
         return np.sum(np.abs(p1 - p2))
     
     def calculer_distances(self):
@@ -32,10 +30,7 @@ class KMoyenne():
         #pour chaque point
         for i, d in enumerate(self.distances):
             #assigne le centroide le plus proche
-            try:
-                self.assignations[i] = np.argmin(d)
-            except:
-                breakpoint()
+            self.assignations[i] = np.argmin(d)
 
     def calculer_centroides(self):
         changed = False
@@ -57,8 +52,7 @@ class KMoyenne():
             self.assigner_centroides()
             changed = self.calculer_centroides()
             i += 1
-            if not changed:
-                print(f'A converge apres {i} iterations')
+        print(f'A converge apres {i} iterations')
 
     #evaluer un point
     def evaluate(self, p):
@@ -66,7 +60,6 @@ class KMoyenne():
         for i in range(self.k):
             distances[i] = self.distance(p, self.centroides[i])
         return np.argmin(distances)
-        
 
 
 if __name__ == '__main__':
